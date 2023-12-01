@@ -52,5 +52,24 @@ WHERE e.LastName = 'King'
 GROUP BY 1
 ORDER BY 2 DESC
 
+/* With use of CTE check average product price for each company orders from 1995.  */
 
+WITH ordersbydate AS
+(SELECT c.CompanyName, o.OrderDate, od.UnitPrice
+FROM customers c JOIN orders o ON o.customerid = c.customerid
+JOIN order_details od on od.orderid = o.orderid
+WHERE o.orderdate like "1995%")
+
+SELECT companyname Company, round(avg(unitprice),2) 'Average price' FROM ordersbydate
+GROUP BY companyname 
+ORDER BY 1 ASC 
+
+/* Using window function check average ordered product price for every company by year. */
+
+SELECT c.CompanyName, o.OrderDate, od.UnitPrice, 
+avg(od.UnitPrice) OVER (PARTITION BY c.CustomerID, YEAR(o.OrderDate)) 'Average product prive'
+FROM customers c
+JOIN orders o ON o.customerid = c.customerid
+JOIN order_details od on od.orderid = o.orderid
+ORDER BY 1,2 
 
