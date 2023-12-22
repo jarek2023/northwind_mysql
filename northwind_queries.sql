@@ -15,7 +15,7 @@ SELECT p.ProductName ,p.UnitPrice FROM products p
 WHERE p.UnitPrice IN (SELECT min(UnitPrice) FROM products)
 OR p.UnitPrice IN (SELECT max(UnitPrice)  FROM products)
 
-/* Create a report that shows the Company Names and name of contact person from customers that have no fax number. */
+/* Create a report that shows the Company Names and name of contact person from customers that have missing fax number. */
 
 SELECT customers.CompanyName , customers.ContactName  FROM customers 
 WHERE customers.Fax IS NULL 
